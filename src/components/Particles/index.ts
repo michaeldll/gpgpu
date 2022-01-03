@@ -4,7 +4,9 @@ import {
   DataTexture,
   FloatType,
   Mesh,
+  MeshBasicMaterial,
   NearestFilter,
+  PlaneBufferGeometry,
   Points,
   RGBFormat,
   ShaderMaterial,
@@ -93,8 +95,12 @@ export default class Particles extends AbstractObject<any> {
 
     /* Debug texture */
     // this.debugPlane = new Mesh(new PlaneBufferGeometry(), new MeshBasicMaterial({ map: positionsTexture }))
-    // this.debugPlane = new Mesh(new PlaneBufferGeometry(), new MeshBasicMaterial({ map: gpgpu.outputTexture }))
-    // context.scene.add(this.debugPlane)
+    this.debugPlane = new Mesh(
+      new PlaneBufferGeometry(),
+      new MeshBasicMaterial({ map: gpgpu.outputTexture }),
+    )
+    this.debugPlane.scale.setScalar(9)
+    context.scene.add(this.debugPlane)
   }
 
   tick = () => {
@@ -111,10 +117,10 @@ export default class Particles extends AbstractObject<any> {
     this.generalPurposeComputationOnGraphicProcessingUnits.render()
 
     /* Debug texture */
-    // {
-    //   const material = this.debugPlane.material as MeshBasicMaterial
-    //   material.map = outputTexture
-    // }
+    {
+      const material = this.debugPlane.material as MeshBasicMaterial
+      material.map = outputTexture
+    }
 
     {
       const output = this.output as Points
