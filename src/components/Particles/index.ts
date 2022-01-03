@@ -13,7 +13,6 @@ import {
 } from "three"
 import { getRandomData } from "../../utils"
 import AbstractObject from "../../webgl/Abstract/AbstractObject"
-import { MainSceneContext } from "../../webgl/Scenes/VoronoiScene"
 import GPGPU from "./GPGPU"
 
 import gpgpuVert from "./GPGPU/gpgpu.vert?raw"
@@ -21,12 +20,12 @@ import gpgpuFrag from "./GPGPU/gpgpu.frag?raw"
 import pointsVert from "./points.vert?raw"
 import pointsFrag from "./points.frag?raw"
 
-export default class Particles extends AbstractObject<MainSceneContext> {
+export default class Particles extends AbstractObject<any> {
   gpgpuProgram: ShaderMaterial
   generalPurposeComputationOnGraphicProcessingUnits: GPGPU
   debugPlane: Mesh
 
-  constructor(context: MainSceneContext) {
+  constructor(context: any) {
     super(context)
 
     const width = 256

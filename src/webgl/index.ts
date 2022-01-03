@@ -3,7 +3,6 @@ import * as EssentialsPlugin from "@tweakpane/plugin-essentials"
 import { Clock, Color, WebGLRenderer } from "three"
 import Prando from "prando"
 import MainScene from "./Scenes/MainScene"
-import CustomPostProcessing from "../components/CustomPostProcessing"
 
 export default class WebGLApp {
   private renderer: WebGLRenderer
