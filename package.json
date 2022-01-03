@@ -1,0 +1,26 @@
+{
+  "name": "voeux-2022",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.2",
+    "vite": "^2.6.4"
+  },
+  "dependencies": {
+    "@tweakpane/core": "^1.0.7",
+    "@tweakpane/plugin-essentials": "^0.1.4",
+    "@types/stats.js": "^0.17.0",
+    "@types/three": "^0.135.0",
+    "gsap": "^3.9.0",
+    "poisson-disk-sampling": "^2.2.2",
+    "prando": "^6.0.1",
+    "stats.js": "^0.17.0",
+    "three": "^0.135.0",
+    "tweakpane": "^3.0.6",
+    "voronoi": "^1.0.0"
+  }
+}
