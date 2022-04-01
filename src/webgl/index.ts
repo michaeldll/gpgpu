@@ -45,7 +45,7 @@ export default class WebGLApp {
 
   private setupRenderer(htmlElement: HTMLCanvasElement) {
     this.renderer = new WebGLRenderer({ canvas: htmlElement, antialias: true })
-    this.renderer.setPixelRatio(2)
+    this.renderer.setPixelRatio(1)
     this.renderer.setClearColor(new Color("#FAF8EE"))
 
     const resize = () => {

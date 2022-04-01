@@ -9,5 +9,5 @@ void main() {
   vUv = pixelCoord;
   gl_Position = projectionMatrix * mvPosition;
   gl_PointSize = uPointSize;
-  gl_PointSize = uPointSize / -mvPosition.z;
+  gl_PointSize = uPointSize / -mvPosition.z; //
 }

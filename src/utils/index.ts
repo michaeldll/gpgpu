@@ -12,8 +12,8 @@ export const getViewport = (camera: PerspectiveCamera) => {
 };
 
 //returns an array of random 3D coordinates
-export function getRandomData(width: number, height: number, size: number) {
-  var len = width * height * 3;
+export function getRandomData(width: number, height: number, size: number, shape:number) {
+  var len = width * height * shape;
   var data = new Float32Array(len);
   while (len--) data[len] = (Math.random() - .5) * size;
   return data;

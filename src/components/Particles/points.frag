@@ -1,9 +1,9 @@
 uniform float uOpacity;
-// uniform sampler2D uTexture;
+uniform sampler2D uFbo;
 varying vec2 vUv;
 
 void main() {
-  // vec4 texel = texture2D(uTexture, vUv);
+  vec4 texel = texture2D(uFbo, vUv);
   // float dist = distance(vUv, vec2(0.5));
   // gl_FragColor = vec4(vec3(dist), dist);
 
@@ -15,5 +15,5 @@ void main() {
       discard;
   }
 
-  gl_FragColor = vec4(vec3(1.), 1.);
+  gl_FragColor = vec4(vec3(1.), texel.a);
 }

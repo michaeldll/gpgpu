@@ -5,7 +5,6 @@ uniform float uElapsedTime;
 varying vec2 vUv;
 
 // Simplex 2D noise
-//
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 
 float snoise(vec2 v){
@@ -38,21 +37,25 @@ float snoise(vec2 v){
 // RNG
 float rand(float n){return fract(sin(n) * 43758.5453123);}
 
+vec3 getVelocity(vec3 position){
+  vec3 velocity = vec3(0.);
+  
+  return velocity;
+}
+
 void main() {
+    // Sample it
     vec4 init = texture2D( uInitialTexture, vUv );
-
     vec4 data = texture2D( uFbo, vUv );
-    float noise = snoise(vec2(init.xy) * -.1) * 0.08;
-    data.x += noise * 0.16;
-    data.y -= 0.04 - noise * 0.16;
-    data.z += noise * 0.16;
-    data.a += uDeltaTime;
 
-    const float LIFETIME = 1.1;
+    // Move it
+    data.y -= 0.04;
+    data.a -= 0.002 * init.r;
 
-    if(data.a > LIFETIME){
-      data.rgb = init.rgb;
-      data.a = init.a;
+    // Reset it
+    float THRESHOLD = 0.;
+    if(data.a < THRESHOLD){
+      data = init;
     }
 
     gl_FragColor = data;

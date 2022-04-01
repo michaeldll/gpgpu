@@ -10,7 +10,6 @@ import {
   Points,
   RGBFormat,
   ShaderMaterial,
-  TextureLoader,
   Vector2,
 } from "three"
 import { getRandomData } from "../../utils"
@@ -24,7 +23,7 @@ import pointsFrag from "./points.frag?raw"
 
 export default class Particles extends AbstractObject<any> {
   gpgpuProgram: ShaderMaterial
-  generalPurposeComputationOnGraphicProcessingUnits: GPGPU
+  gpgpu: GPGPU
   debugPlane: Mesh
 
   constructor(context: any) {
@@ -38,10 +37,16 @@ export default class Particles extends AbstractObject<any> {
     const positions = new Float32Array(amount * 3)
     const pixelCoords = new Float32Array(amount * 2)
 
+    //populate a Float32Array of random positions
+    const size = 24
+    const dataPositions = getRandomData(width, height, size, 4)
+
     for (let index = 0; index < width * height + height; index++) {
       positions[index * 3 + 0] = Math.random() * 2 - 1
       positions[index * 3 + 1] = Math.random() * 2 - 1
       positions[index * 3 + 2] = Math.random()
+
+      dataPositions[index * 3 + 1] *= 0.5
 
       pixelCoords[index * 2 + 0] = (index % width) / width
       pixelCoords[index * 2 + 1] = Math.floor(index / height) / height
@@ -50,13 +55,10 @@ export default class Particles extends AbstractObject<any> {
     geometry.setAttribute("position", new BufferAttribute(positions, 3))
     geometry.setAttribute("pixelCoord", new BufferAttribute(pixelCoords, 2))
 
-    //populate a Float32Array of random positions
-    const dataPositions = getRandomData(width, height, 60)
-
     //put it in data texture
-    const positionsTexture = new DataTexture(dataPositions, width, height, RGBFormat, FloatType)
-    positionsTexture.magFilter = NearestFilter
-    positionsTexture.needsUpdate = true
+    const gpgpuTexture = new DataTexture(dataPositions, width, height, RGBFormat, FloatType)
+    gpgpuTexture.magFilter = NearestFilter
+    gpgpuTexture.needsUpdate = true
 
     // GPGPU
     this.gpgpuProgram = new ShaderMaterial({
@@ -64,28 +66,28 @@ export default class Particles extends AbstractObject<any> {
       fragmentShader: gpgpuFrag,
       uniforms: {
         uFbo: { value: null },
-        uInitialTexture: { value: positionsTexture },
+        uInitialTexture: { value: gpgpuTexture },
         uDeltaTime: { value: 0 },
         uElapsedTime: { value: 0 },
       },
     })
-    const gpgpu = new GPGPU({
+    const generalPurposeComputationOnGraphicProcessingUnits = new GPGPU({
       renderer: context.renderer,
       size: new Vector2(width, height),
       shader: this.gpgpuProgram,
-      initTexture: positionsTexture,
+      initTexture: gpgpuTexture,
     })
 
-    this.generalPurposeComputationOnGraphicProcessingUnits = gpgpu
+    this.gpgpu = generalPurposeComputationOnGraphicProcessingUnits
 
     // Points
     const pointsMaterial = new ShaderMaterial({
       vertexShader: pointsVert,
       fragmentShader: pointsFrag,
       uniforms: {
-        uPointSize: { value: 28 },
+        uPointSize: { value: 16 },
         uOpacity: { value: 1 },
-        uFbo: { value: positionsTexture },
+        uFbo: { value: gpgpuTexture },
         uDeltaTime: { value: 0 },
       },
       transparent: true,
@@ -93,39 +95,42 @@ export default class Particles extends AbstractObject<any> {
     this.output = new Points(geometry, pointsMaterial)
     this.output.frustumCulled = false
 
-    /* Debug texture */
-    // this.debugPlane = new Mesh(new PlaneBufferGeometry(), new MeshBasicMaterial({ map: positionsTexture }))
+    // this.debug()
+  }
+
+  debug = () => {
     this.debugPlane = new Mesh(
       new PlaneBufferGeometry(),
-      new MeshBasicMaterial({ map: gpgpu.outputTexture }),
+      new MeshBasicMaterial({ map: this.gpgpu.outputTexture }),
     )
     this.debugPlane.scale.setScalar(9)
-    context.scene.add(this.debugPlane)
+    this.context.scene.add(this.debugPlane)
   }
 
   tick = () => {
     // const dt = this.context.clock.getDelta()
     const time = this.context.clock.getElapsedTime()
 
-    if (!this.generalPurposeComputationOnGraphicProcessingUnits) return
+    if (!this.gpgpu) return
 
     this.gpgpuProgram.uniforms.uDeltaTime.value = 0.0001
     this.gpgpuProgram.uniforms.uElapsedTime.value = time * 0.5
 
-    const { outputTexture } = this.generalPurposeComputationOnGraphicProcessingUnits
+    const { outputTexture } = this.gpgpu
 
-    this.generalPurposeComputationOnGraphicProcessingUnits.render()
-
-    /* Debug texture */
-    {
-      const material = this.debugPlane.material as MeshBasicMaterial
-      material.map = outputTexture
-    }
+    this.gpgpu.render()
 
     {
       const output = this.output as Points
       const material = output.material as ShaderMaterial
       material.uniforms.uFbo.value = outputTexture
+    }
+
+    /* Debug texture */
+    if(!this.debugPlane) return
+    {
+      const material = this.debugPlane.material as MeshBasicMaterial
+      material.map = outputTexture
     }
   }
 }
