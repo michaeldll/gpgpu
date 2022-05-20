@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { WebGLAppContext } from "../.."
 import { getViewport } from "../../../utils"
 import AbstractObject from "../../Abstract/AbstractObject"
-import Particles from "../../../components/Particles"
+import Particles from "../../components/Particles"
 
 export default class MainScene extends AbstractObject {
   public scene: Scene
@@ -57,8 +57,8 @@ export default class MainScene extends AbstractObject {
     this.scene.fog = new FogExp2(0xffffff, 0.02)
     this.scene.background = new Color(0x000000)
 
-    this.particles = new Particles(this.genContext())
-    this.scene.add(this.particles.output)
+    this.particles = new Particles(this.genContext(), { width: 128, height: 128 })
+    this.scene.add(this.particles.points)
     this.tickingObjects.push(this.particles)
 
     // this.particles.output.position.y += 15

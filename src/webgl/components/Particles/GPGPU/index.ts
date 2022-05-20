@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 /**
  * Utility class for gpgpu
- * 
+ *
  * @leonbaudouin
  *
  *
@@ -42,7 +42,7 @@ export default class GPGPU {
     this.size = size
     this.renderer = renderer
     this.scene = new THREE.Scene()
-    this.scene.background = new THREE.Color('green')
+    // this.scene.background = new THREE.Color('green')
 
     this.camera = new THREE.OrthographicCamera(
       -this.size.x / 2,
