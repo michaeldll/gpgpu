@@ -205,10 +205,10 @@ export default class Particles extends AbstractObject<any> {
     this.points = new Points(geometry, pointsMaterial)
     this.points.frustumCulled = false
 
-    // this.debug()
+    // this.addDebugDataTexture()
   }
 
-  private debug = () => {
+  private addDebugDataTexture = () => {
     this.debugPlane = new Mesh(
       new PlaneBufferGeometry(),
       new MeshBasicMaterial({ map: this.gpgpu.outputTexture }),
