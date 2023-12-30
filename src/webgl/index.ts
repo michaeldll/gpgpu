@@ -6,7 +6,7 @@ import MainScene from "./Scenes/MainScene"
 
 export default class WebGLApp {
   private renderer: WebGLRenderer
-  private parisScene: MainScene
+  private scene: MainScene
   private currentScene: MainScene
 
   private clock: THREE.Clock
@@ -23,14 +23,14 @@ export default class WebGLApp {
     const sceneBlade = this.gui.addBlade({
       view: "list",
       label: "Scene",
-      options: [{ text: "parisScene", value: "parisScene" }],
-      value: "parisScene",
+      options: [{ text: "scene", value: "scene" }],
+      value: "scene",
     }) as ListApi<string>
     sceneBlade.on("change", ({ value }) => (this.currentScene = this[value]))
 
     this.rng = new Prando(/*<- seed*/)
 
-    this.parisScene = new MainScene(this.genContext())
+    this.scene = new MainScene(this.genContext())
 
     this.currentScene = this[sceneBlade.value]
   }
