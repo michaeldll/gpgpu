@@ -9,6 +9,7 @@ export type ObservableState<T> = {
   __trigger: Trigger<T>
 } & T
 
+// @LeonBaudouin
 const observableState = <T extends {}>(defaultState: T): ObservableState<T> => {
   // Proxy state for setter handling
   const cbMap = new Map<string | number | symbol, Callback<T, any>[]>()
@@ -16,7 +17,7 @@ const observableState = <T extends {}>(defaultState: T): ObservableState<T> => {
   const handler: ProxyHandler<ObservableState<T>> = {
     set(obj, propName: string, value: any) {
       const prevValue = (obj as Record<string, any>)[propName]
-      ;(obj as Record<string, any>)[propName] = value
+        ; (obj as Record<string, any>)[propName] = value
       for (const cb of cbMap.get(propName) || []) cb(value, prevValue)
       return true
     },

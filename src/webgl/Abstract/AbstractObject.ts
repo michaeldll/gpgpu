@@ -1,6 +1,7 @@
 import { WebGLAppContext } from ".."
 import { Object3D } from "three"
 
+// @LeonBaudouin
 export default abstract class AbstractObject<T extends WebGLAppContext = WebGLAppContext> {
   protected context: T
   private unbinders: (() => void)[] = []
