@@ -63,6 +63,7 @@ export default class Particles extends AbstractObject<any> {
 
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }`,
+
       fragmentShader: /*glsl*/`
       uniform sampler2D uFbo;
       uniform sampler2D uInitialTexture;

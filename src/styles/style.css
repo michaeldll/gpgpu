@@ -1,85 +1,11 @@
-@font-face {
-  font-family: FoundersGrotesk;
-  src: url("/fonts/founders-grotesk/FoundersGroteskLight.woff2") format("woff2"),
-    url("/fonts/founders-grotesk/FoundersGroteskLight.woff") format("woff");
-  font-weight: 100;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: FoundersGrotesk;
-  src: url("/fonts/founders-grotesk/FoundersGrotesk-Regular.woff2") format("woff2"),
-    url("/fonts/founders-grotesk/FoundersGrotesk-Regular.woff") format("woff");
-  font-weight: 500;
-  font-display: swap;
-}
-
 body {
   overflow: hidden;
 }
 
 #app {
-  font-family: FoundersGrotesk, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-h1 {
-  font-size: 2rem;
-  color: rgb(177, 162, 126);
-  font-weight: 500;
-}
-
-h2 {
-  font-size: 1.5rem;
-  color: rgb(177, 162, 126);
-}
-
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background: rgb(227, 222, 212);
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: none;
-}
-
-.loader__mask {
-  overflow: hidden;
-  position: relative;
-  text-align: center;
-}
-
-.loader__mask__22 {
-  visibility: hidden;
-}
-
-.loader__mask__placeholder {
-  opacity: 0;
-}
-
-.loader__mask__21,
-.loader__mask__22 {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  text-align: center;
-}
-
-.center-abs {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.tp-dfwv {
-  /* display: none; */
 }
